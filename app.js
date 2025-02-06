@@ -17,6 +17,6 @@ mongoose.connect('mongodb://localhost:27017/blogs', { useNewUrlParser: true, use
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.log(err));
 
-app.listen(5000, () => {
+app.listen(3000, () => {
   console.log('Server is running on http://localhost:3000');
 });
