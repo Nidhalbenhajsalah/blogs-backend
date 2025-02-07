@@ -34,6 +34,30 @@ const postBlog = async (req, res) => {
   }
 };
 
+  // upvote blog
+  const upvoteBlog = async (req, res) => {
+    try {
+      const blog = await Blog.findById(req.params.id);
+      if (!blog) return res.status(404).json({ message: 'Blog not found' });
+      blog.upvotes++;
+      const updatedBlog = await blog.save();
+      res.json(updatedBlog);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  };
+  // downvote blog
+  const downvoteBlog = async (req, res) => {
+    try {
+      const blog = await Blog.findById(req.params.id);
+      if (!blog) return res.status(404).json({ message: 'Blog not found' });
+      blog.downvotes++;
+      const updatedBlog = await blog.save();
+      res.json(updatedBlog);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  };
 
 
-module.exports = { getBlogs, getBlog, postBlog };
+module.exports = { getBlogs, getBlog, postBlog, upvoteBlog, downvoteBlog };
