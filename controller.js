@@ -10,6 +10,27 @@ const getBlogs = async (req, res) => {
   }
 };
 
+// partial load of blogs
+const getPartialLoadBlogs = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+    const blogs = await Blog.find().skip(skip).limit(limit);
+    const totalBlogs = await Blog.countDocuments();
+    res.json({
+      totalBlogs,
+      totalPages: Math.ceil(totalBlogs / limit),
+      currentPage: page,
+      blogs
+    });
+    console.log(res.json);
+    
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 // Get blog by id
 const getBlog = async (req, res) => {
   try {
@@ -60,4 +81,4 @@ const postBlog = async (req, res) => {
   };
 
 
-module.exports = { getBlogs, getBlog, postBlog, upvoteBlog, downvoteBlog };
+module.exports = { getBlogs, getBlog, postBlog, upvoteBlog, downvoteBlog,getPartialLoadBlogs };
